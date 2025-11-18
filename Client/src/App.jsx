@@ -18,7 +18,7 @@ import AdminDashboardPage from './Pages/AdminPage'
 import ProtectAdminRoute from './Components/ProtectAdminRoute'
 import Forbidden403 from './Pages/Forbidden403'
 import NotFound404 from './Pages/NotFound404'
-import AllOrdersPage from './Pages/AllOrdersPAge'
+import AllOrdersPage from './Pages/AllOrdersPage'
 
 function App() {
 
