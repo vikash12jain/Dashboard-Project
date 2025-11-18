@@ -15,7 +15,7 @@ const app = express();
 app.use(express.json()); 
 app.use(bodyParser.json());
 app.use(cookieParser()); 
-const clientOrigin = 'http://localhost:5173';
+const clientOrigin = process.env.CLIENT_ORIGIN;
 
 app.use(
   cors({
