@@ -176,10 +176,14 @@ const [cart, setCart] = useState(getInitialCart);
 
 
   const handleLogout = async () => {
+    setLoading(true)
     try {
       await apiFetch('/users/logout', { method: 'POST' }, { requestKey: 'logout' });
     } catch (err) {
       console.warn('Logout request failed:', err);
+    }
+    finally{
+      setLoading(false);
     }
     localStorage.removeItem("authToken");
     localStorage.removeItem("user");
@@ -386,14 +390,17 @@ const [cart, setCart] = useState(getInitialCart);
 
 
   const clearCart = async () => {
+    setLoading(true);
     if (!user) {
       setCart([]);
       try { localStorage.removeItem('cart'); } catch (e) { console.error(e) }
+      setLoading(false);
       return;
     }
     try {
       await apiFetch('/cart/clear', { method: 'DELETE' }, { requestKey: 'clearCart' });
       setCart([]);
+      setLoading(false);
       return;
     } catch (e) {
       console.warn('cart/clear failed', e);
@@ -412,6 +419,7 @@ const [cart, setCart] = useState(getInitialCart);
       setCart([]);
     } catch (err) {
       console.error('clearCart fallback failed', err);
+      setLoading(false);
     }
   };
 
@@ -420,7 +428,7 @@ const [cart, setCart] = useState(getInitialCart);
       toast.success('Cart is empty');
       return;
     }
-
+    setLoading(true)
     const orderItems = cart.map(ci => ({ productId: ci._id, quantity: Number(ci.quantity || 0) }));
 
     try {
@@ -452,8 +460,10 @@ const [cart, setCart] = useState(getInitialCart);
       toast.success('Order placed successfully!');
 
       navigate('/');
+      setLoading(false);
       return resp;
     } catch (err) {
+      setLoading(false);
       console.error('handleCheckout error', err);
       toast.error(err.message || 'Checkout failed. Please try again.');
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useEcom } from '../../Context/EcomProvider';
 import UserForm from '../../Components/UserForm';
+import Header from '../../Components/Header';
 
 const UserCreatePage = () => {
     const navigate = useNavigate();
@@ -60,7 +61,9 @@ const UserCreatePage = () => {
     };
 
     return (
-        <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg mb-8 max-w-2xl mx-auto">
+        <>
+        <Header/>
+        <div className="bg-white p-4 mt-30 sm:p-6 rounded-xl shadow-lg mb-8 max-w-2xl mx-auto">
             <h3 className="text-2xl font-bold mb-4">Create New User</h3>
             <UserForm
                 formState={formState}
@@ -72,6 +75,7 @@ const UserCreatePage = () => {
                 isEditMode={false}
             />
         </div>
+        </>
     );
 };
 

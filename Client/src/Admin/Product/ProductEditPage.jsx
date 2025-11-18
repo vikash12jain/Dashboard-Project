@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEcom } from '../../Context/EcomProvider';
 import ProductForm from '../../Components/ProductForm';
+import Header from '../../Components/Header';
 
 const ProductEditPage = () => {
     const { id } = useParams(); 
@@ -88,7 +89,9 @@ const ProductEditPage = () => {
     if (error && !loading) return <p className="text-center mt-8 text-red-500">Error: {error}</p>;
 
     return (
-        <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg mb-8 max-w-2xl mx-auto">
+        <>
+        <Header/>
+        <div className="bg-white mt-4 p-4 sm:p-6 rounded-xl shadow-lg mb-8 max-w-2xl mx-auto">
             <h3 className="text-2xl font-bold mb-4">Edit Product ID: {id}</h3>
             <ProductForm
                 formState={formState}
@@ -100,6 +103,7 @@ const ProductEditPage = () => {
                 isEditMode={true}
             />
         </div>
+        </>
     );
 };
 

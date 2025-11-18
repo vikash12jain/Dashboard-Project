@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useEcom } from '../../Context/EcomProvider';
 import ProductForm from '../../Components/ProductForm';
-
+import Header from '../../Components/Header'
 const ProductCreatePage = () => {
     const navigate = useNavigate();
     const { apiFetch } = useEcom();
@@ -55,7 +55,9 @@ const ProductCreatePage = () => {
     };
 
     return (
-        <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg mb-8 max-w-2xl mx-auto">
+        <>
+        <Header/>
+        <div className="bg-white mt-30 p-4 sm:p-6 rounded-xl shadow-lg mb-8 max-w-2xl mx-auto">
             <h3 className="text-2xl font-bold mb-4">Create New Product</h3>
             <ProductForm
                 formState={formState}
@@ -67,6 +69,7 @@ const ProductCreatePage = () => {
                 isEditMode={false}
             />
         </div>
+        </>
     );
 };
 

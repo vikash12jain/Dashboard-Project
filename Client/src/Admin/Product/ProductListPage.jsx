@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useEcom } from '../../Context/EcomProvider';
+import Header from '../../Components/Header';
 
 const ProductListPage = () => {
     const { products: propProducts, setProducts: setPropProducts, apiFetch } = useEcom();
@@ -48,7 +49,9 @@ const ProductListPage = () => {
     };
 
     return (
-        <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
+        <>
+        <Header/>
+        <div className="bg-white mt-4 p-4 sm:p-6 rounded-xl shadow-lg">
             <h3 className="text-2xl font-bold mb-4">All Products</h3>
             
             <Link 
@@ -102,6 +105,7 @@ const ProductListPage = () => {
                 </div>
             )}
         </div>
+        </>
     );
 };
 
