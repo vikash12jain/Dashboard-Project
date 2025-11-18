@@ -94,7 +94,7 @@ const [cart, setCart] = useState(getInitialCart);
         const token = localStorage.getItem('authToken') || authToken;
         if (token) headers.Authorization = `Bearer ${token}`;
 
-        const res = await fetch(`${API_BASE}${path}`, { credentials: options.credentials ?? 'include', ...options, headers });
+        const res = await fetch(`${API_BASE}${path}`, { credentials:'include', ...options, headers });
 
         if (res.status === 401) {
           localStorage.removeItem('authToken');
