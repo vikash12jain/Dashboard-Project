@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import HomePage from './Pages/HomePage'
-import CheckoutPage from './Pages/CheckoutPAge'
+import CheckoutPage from './Pages/CheckoutPage'
 import CartPage from './Pages/CartPAge'
 import LoginPage from './Pages/LoginPage'
 import RegisterPage from './Pages/RegisterPage'
