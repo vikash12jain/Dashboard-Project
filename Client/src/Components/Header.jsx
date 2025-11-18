@@ -1,6 +1,7 @@
 import React from 'react'
 import { useEcom } from '../Context/EcomProvider';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import evertoneLogo from '../assets/evertone_logo.png';
 
 const Header = () => {
     const { cart, user, mobileMenuOpen, setMobileMenuOpen } = useEcom();
@@ -10,7 +11,8 @@ const Header = () => {
         <header className="bg-stone-800 shadow-xl border-b border-amber-500/10 fixed top-0 left-0 right-0 z-50 font-serif">
             <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center py-3 sm:py-4">
                 {/* Logo: Tracking-wider for a cleaner, artisan feel */}
-                <a href="#" className="text-amber-100 text-xl sm:text-3xl font-extrabold tracking-wider transition-colors duration-300 hover:text-amber-300">ARTISAN</a>
+               <Link to={'/'} ><img className='w-40' src={evertoneLogo} alt="" /></Link>
+                {/* <a href="#" className="text-amber-100 text-xl sm:text-3xl font-extrabold tracking-wider transition-colors duration-300 hover:text-amber-300"></a> */}
                 <nav className='flex items-center space-x-4 sm:space-x-6'>
 
                     {/* Mobile Icons (Cart and Menu Toggle) */}

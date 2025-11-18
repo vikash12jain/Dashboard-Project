@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Header from '../Components/Header';
 
 const AdminDashboardPage = () => {
-  return (
-    <div className="p-8 bg-gray-50 min-h-full">
+  return (<>
+  <Header/>
+    <div className="p-8 mt-15 bg-gray-50 min-h-full">
       <h1 className="text-4xl font-extrabold text-stone-800 mb-10 border-b-2 border-amber-500 pb-3">
         Admin Dashboard Overview
       </h1>
@@ -40,6 +42,7 @@ const AdminDashboardPage = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
