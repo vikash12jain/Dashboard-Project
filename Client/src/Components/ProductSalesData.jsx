@@ -31,7 +31,7 @@ const ProductSaleData = () => {
     datasets: [
       {
         label: "Number of Products Sold",
-        data: [120, 80, 60, 40, 30, 50, 20, 70], // example data, adjust as needed
+        data: [120, 80, 60, 40, 30, 50, 20, 70],
         backgroundColor: [
           "rgba(75, 192, 192, 0.7)",
           "rgba(54, 162, 235, 0.7)",

@@ -20,14 +20,12 @@ const UserCreatePage = () => {
 
     const handleFormChange = (e) => {
         const { name, value } = e.target;
-        // For checkboxes, handle the actual boolean value from the onChange handler in UserForm
         setFormState({ 
             ...formState, 
             [name]: value
         });
     };
 
-    // API ENDPOINT: POST /users/register-admin
     const handleCreate = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);

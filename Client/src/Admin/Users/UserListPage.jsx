@@ -37,7 +37,7 @@ const UserListPage = () => {
         try {
             await apiFetch(`/users/${userId}`, { method: 'DELETE' }, { requestKey: `admin.delete-user-${userId}` });
             setMessage('User deleted successfully!');
-            await fetchUsers(); // Refetch the list to update UI
+            await fetchUsers();
         } catch (err) {
             console.error(err);
             setError(err.message || 'Delete failed');

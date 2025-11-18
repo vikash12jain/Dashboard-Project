@@ -8,9 +8,8 @@ const ProductListPage = () => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
-    const [isSubmitting, setIsSubmitting] = useState(false); // Used for delete operation loading
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    // API ENDPOINT: GET /products
     const fetchProducts = async () => {
         setLoading(true);
         setError('');
@@ -18,7 +17,7 @@ const ProductListPage = () => {
             const data = await apiFetch('/products', { method: 'GET' }, { requestKey: 'admin.fetchProducts' });
             setLocalProducts(data);
             if (setPropProducts) setPropProducts(data);
-            setMessage(''); // Clear success message on new fetch
+            setMessage('');
         } catch (err) {
             console.error(err);
             setError(err.message || 'Unable to fetch products');
@@ -31,7 +30,6 @@ const ProductListPage = () => {
         fetchProducts();
     }, []);
 
-    // API ENDPOINT: DELETE /products/:id
     const handleDelete = async (productId) => {
         if (!window.confirm('Are you sure you want to delete this product?')) return;
         setIsSubmitting(true);
@@ -40,7 +38,7 @@ const ProductListPage = () => {
         try {
             await apiFetch(`/products/${productId}`, { method: 'DELETE' }, { requestKey: `admin.delete-${productId}` });
             setMessage('Product deleted successfully!');
-            await fetchProducts(); // Refetch the list to update UI
+            await fetchProducts();
         } catch (err) {
             console.error(err);
             setError(err.message || 'Delete failed');
@@ -53,7 +51,6 @@ const ProductListPage = () => {
         <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
             <h3 className="text-2xl font-bold mb-4">All Products</h3>
             
-            {/* Link to the dedicated Create page */}
             <Link 
                 to="/admin/products/create" 
                 className="bg-stone-800 text-amber-100 font-bold py-2 px-4 rounded-full hover:bg-stone-700 transition-colors mb-4 inline-block"

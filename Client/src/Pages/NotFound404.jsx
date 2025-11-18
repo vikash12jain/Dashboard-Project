@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../Components/Header'; // Assuming you use a shared Header
-import Footer from '../Components/Footer'; // Assuming you use a shared Footer
+import Header from '../Components/Header'; 
+import Footer from '../Components/Footer';
 
 const NotFound404 = () => {
   return (

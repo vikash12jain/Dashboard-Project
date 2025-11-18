@@ -21,7 +21,6 @@ const UserEditPage = () => {
         isAdmin: false,
     });
 
-    // API ENDPOINT: GET /users/:id
     useEffect(() => {
         const fetchUser = async () => {
             setLoading(true);
@@ -52,7 +51,6 @@ const UserEditPage = () => {
         });
     };
 
-    // API ENDPOINT: PUT /users/:id
     const handleUpdate = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
@@ -60,7 +58,7 @@ const UserEditPage = () => {
         setError('');
 
         const payload = {
-            firstname: formState.firstname.trim(), // Server expects flat firstname/lastname for update
+            firstname: formState.firstname.trim(), 
             lastname: formState.lastname.trim(),
             email: formState.email.trim(),
             isAdmin: formState.isAdmin,

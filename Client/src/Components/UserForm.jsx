@@ -34,7 +34,6 @@ const UserForm = ({ formState, handleFormChange, handleSubmit, isSubmitting, err
                 required
             />
             
-            {/* Password field only shown for Creation mode */}
             {!isEditMode && (
                 <input
                     className="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700"
@@ -53,7 +52,6 @@ const UserForm = ({ formState, handleFormChange, handleSubmit, isSubmitting, err
                     id="isAdmin"
                     name="isAdmin"
                     checked={formState.isAdmin}
-                    // Handle checkbox change specifically
                     onChange={(e) => handleFormChange({ target: { name: 'isAdmin', value: e.target.checked } })}
                     className="h-4 w-4 text-stone-600 border-gray-300 rounded"
                 />

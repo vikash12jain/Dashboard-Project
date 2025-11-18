@@ -16,13 +16,10 @@ const HomePage = () => {
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [sortOrder, setSortOrder] = useState('none');
     
-    // --- 1. PAGINATION STATE ---
     const [currentPage, setCurrentPage] = useState(1);
-    const productsPerPage = 10; // Sets the limit to 10 products per page
-    // ---------------------------
+    const productsPerPage = 10; 
 
     const navigate = useNavigate();
-    // Ensure 'All' is the first category option
     const allCategories = ['All', ...new Set(products.map(product => product.category))];
 
     const filteredAndSortedProducts = products
@@ -40,41 +37,29 @@ const HomePage = () => {
             }
             return 0;
         });
-
-    // --- 2. PAGINATION LOGIC ---
-    // Calculate total number of pages
     const totalPages = Math.ceil(filteredAndSortedProducts.length / productsPerPage);
 
-    // Calculate the start and end indices for the current page
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
 
-    // Get the subset of products to display on the current page
     const currentProducts = filteredAndSortedProducts.slice(indexOfFirstProduct, indexOfLastProduct);
 
-    // Function to change the page
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
-        // Optional: Scroll to the top of the product section on page change
         document.getElementById('Product-section')?.scrollIntoView({ behavior: 'smooth' });
     };
 
-    // Reset page to 1 whenever filters change (important for correct data display)
     React.useEffect(() => {
         setCurrentPage(1);
     }, [searchTerm, selectedCategory, sortOrder]);
-    // ----------------------------
 
 
     return (
-        // Use a light gray background for a professional canvas
         <div className="min-h-screen flex flex-col font-sans bg-gray-50">
             
             <Header/>
-            {/* Added more padding to clear the fixed professional header */}
             <div className='pt-24 flex-1'>
                 
-                {/* Auth Error Banner */}
                 {authError && (
                     <div className="container mx-auto px-4 mt-4">
                         <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-lg" role="alert">
@@ -87,7 +72,6 @@ const HomePage = () => {
                 <main id="Product-section" className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-10 pt-0 ">
                     <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 md:space-x-4 p-4 bg-white border border-gray-200 rounded-xl shadow-lg mb-12">
                         
-                        {/* Search Button */}
                         <button
                             onClick={() => setIsSearchModalOpen(true)}
                             className="w-full md:w-56 text-gray-700 border border-gray-300 rounded-lg px-4 py-2.5 flex items-center justify-start gap-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow shadow-sm"
@@ -100,7 +84,6 @@ const HomePage = () => {
                         </button>
 
                         <div className='flex gap-3 w-full md:w-auto'>
-                            {/* Category Filter */}
                             <select
                                 value={selectedCategory}
                                 onChange={(e) => setSelectedCategory(e.target.value)}
@@ -111,7 +94,6 @@ const HomePage = () => {
                                     <option key={category} value={category === 'All' ? 'All' : category}>{category}</option>
                                 ))}
                             </select>
-                            {/* Sort Filter */}
                             <select
                                 value={sortOrder}
                                 onChange={(e) => setSortOrder(e.target.value)}
@@ -124,7 +106,6 @@ const HomePage = () => {
                         </div>
                     </div>
 
-                    {/* Product Grid Section */}
                     <section className="-mt-10">
                         <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 text-center mb-10 pb-2 border-b-2 border-blue-500/10">
                             Shop Now
@@ -132,7 +113,7 @@ const HomePage = () => {
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
                             {isLoading ? (
                                 <p className="text-center col-span-full text-gray-500 py-10">Loading catalog data...</p>
-                            // --- IMPORTANT: Use currentProducts array for rendering ---
+                       
                             ) : currentProducts.length > 0 ? (
                                 currentProducts.map(product => 
                                     <ProductCard 
@@ -143,7 +124,6 @@ const HomePage = () => {
                                         isBusy={isBusy} 
                                     />
                                 )
-                            // --------------------------------------------------------
                             ) : (
                                 <p className="text-center col-span-full text-gray-500 py-10 text-lg">
                                     No products match your current filters. Try a different search or category.
@@ -151,11 +131,8 @@ const HomePage = () => {
                             )}
                         </div>
                     </section>
-
-                    {/* --- 3. PAGINATION CONTROLS (Only show if more than 1 page) --- */}
                     {totalPages > 1 && (
                         <div className="flex justify-center items-center mt-12 space-x-2">
-                            {/* Previous Button */}
                             <button
                                 onClick={() => paginate(currentPage - 1)}
                                 disabled={currentPage === 1}
@@ -166,8 +143,6 @@ const HomePage = () => {
                             >
                                 Previous
                             </button>
-
-                            {/* Page Numbers */}
                             {[...Array(totalPages).keys()].map(number => (
                                 <button
                                     key={number + 1}
@@ -182,8 +157,6 @@ const HomePage = () => {
                                     {number + 1}
                                 </button>
                             ))}
-
-                            {/* Next Button */}
                             <button
                                 onClick={() => paginate(currentPage + 1)}
                                 disabled={currentPage === totalPages}
@@ -196,7 +169,6 @@ const HomePage = () => {
                             </button>
                         </div>
                     )}
-                    {/* ------------------------------------------------------------- */}
 
 
                 </main>

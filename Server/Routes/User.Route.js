@@ -30,16 +30,12 @@ router.post('/logout', userMiddleware.authUser,monitorActivity.logUserActivity ,
 
 router.post("/register-admin", protect, adminOnly, monitorActivity.logUserActivity, userController.registerAdmin);
 
-// GET /api/users - Get all users
 router.get("/", protect, adminOnly, monitorActivity.logUserActivity, userController.getAllUsers);
 
-// GET /api/users/:id - Get a single user
 router.get("/:id", protect, adminOnly, monitorActivity.logUserActivity, userController.getSingleUser);
 
-// PUT /api/users/:id - Update a user
 router.put("/:id", protect, adminOnly, monitorActivity.logUserActivity, userController.updateUserByAdmin);
 
-// DELETE /api/users/:id - Delete a user
 router.delete("/:id", protect, adminOnly, monitorActivity.logUserActivity, userController.deleteUser);
  
 module.exports = router;

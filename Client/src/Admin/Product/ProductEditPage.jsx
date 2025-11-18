@@ -4,7 +4,7 @@ import { useEcom } from '../../Context/EcomProvider';
 import ProductForm from '../../Components/ProductForm';
 
 const ProductEditPage = () => {
-    const { id } = useParams(); // Get product ID from the URL
+    const { id } = useParams(); 
     const navigate = useNavigate();
     const { apiFetch } = useEcom();
     
@@ -18,14 +18,12 @@ const ProductEditPage = () => {
         color: '', description: '', image: '',
     });
 
-    // API ENDPOINT: GET /products/:id
     useEffect(() => {
         const fetchProduct = async () => {
             setLoading(true);
             try {
                 const product = await apiFetch(`/products/${id}`, { method: 'GET' });
                 
-                // Pre-populate form state with fetched data
                 setFormState({
                     name: product.name || '',
                     sku: product.sku || '',
@@ -51,7 +49,6 @@ const ProductEditPage = () => {
         setFormState({ ...formState, [e.target.name]: e.target.value });
     };
 
-    // API ENDPOINT: PUT /products/:id
     const handleUpdate = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
@@ -77,7 +74,6 @@ const ProductEditPage = () => {
             }, { requestKey: `admin.update-${id}` });
             
             setMessage('Product updated successfully!');
-            // Redirect to the list page after successful update
             setTimeout(() => navigate('/admin/products'), 1500);
 
         } catch (err) {

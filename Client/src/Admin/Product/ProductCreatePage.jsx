@@ -44,7 +44,6 @@ const ProductCreatePage = () => {
             }, { requestKey: 'admin.create' });
             
             setMessage('Product created successfully!');
-            // Redirect to the list page after successful creation
             setTimeout(() => navigate('/admin/products'), 1500); 
 
         } catch (err) {
