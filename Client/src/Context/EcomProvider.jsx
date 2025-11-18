@@ -6,8 +6,8 @@ const EcomContext = createContext();
 
 export const EcomProvider = ({ children }) => {
 
-  // const API_BASE = import.meta.env.VITE_API_URL;
-  const API_BASE = 'http://localhost:4000/api';
+  const API_BASE = import.meta.env.VITE_API_URL;
+  // const API_BASE = 'http://localhost:4000/api';
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [user, setUser] = useState(null);
