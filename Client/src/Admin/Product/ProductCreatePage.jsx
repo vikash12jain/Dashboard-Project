@@ -19,7 +19,6 @@ const ProductCreatePage = () => {
         setFormState({ ...formState, [e.target.name]: e.target.value });
     };
 
-    // API ENDPOINT: POST /products
     const handleCreate = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);

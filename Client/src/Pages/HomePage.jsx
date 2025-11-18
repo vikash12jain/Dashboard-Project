@@ -15,6 +15,12 @@ const HomePage = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [sortOrder, setSortOrder] = useState('none');
+    
+    // --- 1. PAGINATION STATE ---
+    const [currentPage, setCurrentPage] = useState(1);
+    const productsPerPage = 10; // Sets the limit to 10 products per page
+    // ---------------------------
+
     const navigate = useNavigate();
     // Ensure 'All' is the first category option
     const allCategories = ['All', ...new Set(products.map(product => product.category))];
@@ -35,6 +41,31 @@ const HomePage = () => {
             return 0;
         });
 
+    // --- 2. PAGINATION LOGIC ---
+    // Calculate total number of pages
+    const totalPages = Math.ceil(filteredAndSortedProducts.length / productsPerPage);
+
+    // Calculate the start and end indices for the current page
+    const indexOfLastProduct = currentPage * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+
+    // Get the subset of products to display on the current page
+    const currentProducts = filteredAndSortedProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+
+    // Function to change the page
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
+        // Optional: Scroll to the top of the product section on page change
+        document.getElementById('Product-section')?.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    // Reset page to 1 whenever filters change (important for correct data display)
+    React.useEffect(() => {
+        setCurrentPage(1);
+    }, [searchTerm, selectedCategory, sortOrder]);
+    // ----------------------------
+
+
     return (
         // Use a light gray background for a professional canvas
         <div className="min-h-screen flex flex-col font-sans bg-gray-50">
@@ -53,19 +84,7 @@ const HomePage = () => {
                     </div>
                 )}
 
-                <main id="Product-section" className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-10">
-
-                    {/* Hero Section: Professional and direct */}
-                    <div className="text-center my-10">
-                        <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">
-                            Discover Quality Products
-                        </h1>
-                        <p className="mt-4 text-lg text-gray-500 max-w-2xl mx-auto">
-                            Explore our curated collection of goods, designed for excellence and durability.
-                        </p>
-                    </div>
-
-                    {/* Filter and Sort Controls: Structured and clean design */}
+                <main id="Product-section" className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-10 pt-0 ">
                     <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 md:space-x-4 p-4 bg-white border border-gray-200 rounded-xl shadow-lg mb-12">
                         
                         {/* Search Button */}
@@ -106,15 +125,16 @@ const HomePage = () => {
                     </div>
 
                     {/* Product Grid Section */}
-                    <section className="mt-16">
+                    <section className="-mt-10">
                         <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 text-center mb-10 pb-2 border-b-2 border-blue-500/10">
-                            Current Inventory
+                            Shop Now
                         </h2>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
                             {isLoading ? (
                                 <p className="text-center col-span-full text-gray-500 py-10">Loading catalog data...</p>
-                            ) : filteredAndSortedProducts.length > 0 ? (
-                                filteredAndSortedProducts.map(product => 
+                            // --- IMPORTANT: Use currentProducts array for rendering ---
+                            ) : currentProducts.length > 0 ? (
+                                currentProducts.map(product => 
                                     <ProductCard 
                                         key={product._id} 
                                         product={product} 
@@ -123,6 +143,7 @@ const HomePage = () => {
                                         isBusy={isBusy} 
                                     />
                                 )
+                            // --------------------------------------------------------
                             ) : (
                                 <p className="text-center col-span-full text-gray-500 py-10 text-lg">
                                     No products match your current filters. Try a different search or category.
@@ -130,6 +151,53 @@ const HomePage = () => {
                             )}
                         </div>
                     </section>
+
+                    {/* --- 3. PAGINATION CONTROLS (Only show if more than 1 page) --- */}
+                    {totalPages > 1 && (
+                        <div className="flex justify-center items-center mt-12 space-x-2">
+                            {/* Previous Button */}
+                            <button
+                                onClick={() => paginate(currentPage - 1)}
+                                disabled={currentPage === 1}
+                                className={`px-4 py-2 border rounded-lg text-sm font-medium transition-colors ${
+                                    currentPage === 1 ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-white text-blue-600 border-blue-600 hover:bg-blue-50'
+                                }`}
+                                aria-label="Go to previous page"
+                            >
+                                Previous
+                            </button>
+
+                            {/* Page Numbers */}
+                            {[...Array(totalPages).keys()].map(number => (
+                                <button
+                                    key={number + 1}
+                                    onClick={() => paginate(number + 1)}
+                                    className={`px-4 py-2 border rounded-lg text-sm font-medium transition-colors ${
+                                        (number + 1) === currentPage 
+                                            ? 'bg-blue-600 text-white border-blue-600 shadow-md' 
+                                            : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                                    }`}
+                                    aria-current={(number + 1) === currentPage ? 'page' : undefined}
+                                >
+                                    {number + 1}
+                                </button>
+                            ))}
+
+                            {/* Next Button */}
+                            <button
+                                onClick={() => paginate(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                                className={`px-4 py-2 border rounded-lg text-sm font-medium transition-colors ${
+                                    currentPage === totalPages ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-white text-blue-600 border-blue-600 hover:bg-blue-50'
+                                }`}
+                                aria-label="Go to next page"
+                            >
+                                Next
+                            </button>
+                        </div>
+                    )}
+                    {/* ------------------------------------------------------------- */}
+
 
                 </main>
                 {isSearchModalOpen && <SearchModal products={products} onClose={() => setIsSearchModalOpen(false)} addToCart={addToCart} onOpen={(id) => { setCurrentProductId(id); navigate('/product-Detail'); setIsSearchModalOpen(false); }} />}

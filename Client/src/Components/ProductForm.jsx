@@ -1,14 +1,14 @@
 import React from 'react';
 
 const categories = [
-    "Home & Living",
-    "Kitchen & Dining",
-    "Fashion & Accessories",
-    "Gifts & Collectibles",
-    "Wellness & Lifestyle",
-    "Art & Craft",
-    "Eco-friendly & Sustainable",
-    "Other"
+    "Smartphones & Accessories",
+    "Laptops & Computers",
+    "Audio (Headphones & Speakers)",
+    "Televisions & Home Theater",
+    "Gaming",
+    "Wearable Technology",
+    "Cameras & Photography",
+    "Office & Connectivity"
 ];
 
 const ProductForm = ({ formState, handleFormChange, handleSubmit, isSubmitting, error, message, isEditMode }) => {

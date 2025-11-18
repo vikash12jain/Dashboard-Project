@@ -18,6 +18,7 @@ import AdminDashboardPage from './Pages/AdminPage'
 import ProtectAdminRoute from './Components/ProtectAdminRoute'
 import Forbidden403 from './Pages/Forbidden403'
 import NotFound404 from './Pages/NotFound404'
+import AllOrdersPage from './Pages/AllOrdersPAge'
 
 function App() {
 
@@ -43,6 +44,7 @@ function App() {
         <Route path='users/create' element={<UserCreatePage />} />
         <Route path='users/:id/edit' element={<UserEditPage />} />
         <Route path='users' element={<UserListPage />} />
+        <Route path='All-Orders' element={<AllOrdersPage />} />
       </Route>
       <Route path='*' element={<NotFound404/>}/>
     </Routes>

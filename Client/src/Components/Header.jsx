@@ -46,7 +46,7 @@ const Header = () => {
                     {/* Desktop Navigation Links (Hidden on mobile) */}
                     <ul className="hidden md:flex space-x-6 text-amber-100 items-center">
                         {/* Shop Link */}
-                        <li>
+                        {/* <li>
                             <button 
                                 onClick={() => {
                                     navigate('/');
@@ -60,7 +60,7 @@ const Header = () => {
                             >
                                 Shop
                             </button>
-                        </li>
+                        </li> */}
 
                         {user ? (
                             <>
