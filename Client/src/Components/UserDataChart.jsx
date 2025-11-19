@@ -20,11 +20,11 @@ ChartJS.register(
 
 const UserDataChart = () => {
   const data = {
-    labels: ["13-Nov-25","15-Nov-25","16-Nov-25","17-Nov-25","18-Nov-25"],
+    labels: ["13-Nov-25","15-Nov-25","16-Nov-25","17-Nov-25","18-Nov-25","19-Nov-25"],
     datasets: [
       {
         label: "Users Data",
-        data: [4,6,8,2,9],
+        data: [4,6,8,2,9,4],
         borderColor: "rgba(15, 217, 133, 1)",
         tension: 0.1,
       }
