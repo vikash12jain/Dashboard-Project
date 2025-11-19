@@ -38,13 +38,16 @@ export const LoadingProvider = ({ children }) => {
 };
 
 
-  //  useEffect(() => {
-  //   if(isLoading) return 
-  //   setLoading(true);
-  //   const timer = setTimeout(() => setLoading(false), 500); 
+  useEffect(() => {
+  if (location.pathname === "/") return;
+  if (isLoading) return;
 
-  //   return () => clearTimeout(timer);
-  // }, [location.pathname]);
+  setLoading(true);
+
+  const timer = setTimeout(() => setLoading(false), 500);
+
+  return () => clearTimeout(timer);
+}, [location.pathname]);
 
   return (
     <LoadingContext.Provider value={{ isLoading, setLoading }}>
