@@ -91,7 +91,7 @@ const ProductEditPage = () => {
     return (
         <>
         <Header/>
-        <div className="bg-white mt-4 p-4 sm:p-6 rounded-xl shadow-lg mb-8 max-w-2xl mx-auto">
+        <div className="bg-white  p-4 sm:p-6 mt-35 rounded-xl shadow-lg mb-8 max-w-2xl mx-auto">
             <h3 className="text-2xl font-bold mb-4">Edit Product ID: {id}</h3>
             <ProductForm
                 formState={formState}
