@@ -39,6 +39,7 @@ export const LoadingProvider = ({ children }) => {
 
 
    useEffect(() => {
+    if(isLoading) return 
     setLoading(true);
     const timer = setTimeout(() => setLoading(false), 500); 
 
