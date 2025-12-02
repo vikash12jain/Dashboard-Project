@@ -35,7 +35,7 @@ export const LoadingProvider = ({ children }) => {
       setTenSec(false);
       const timerId = setTimeout(() => {
         setTenSec(true);
-      }, 7000);
+      }, 4000);
       return () => {
         clearTimeout(timerId);
       };
