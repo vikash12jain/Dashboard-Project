@@ -20,27 +20,46 @@ export const LoadingProvider = ({ children }) => {
   //     </div>
   //   );
   // };
-  
+
   useEffect(() => {
     if (location.pathname === "/") return;
     setIsTransitioning(true);
-    const timer = setTimeout(() => setIsTransitioning(false), 500);
+    const timer = setTimeout(() => setIsTransitioning(false), 1000);
     return () => clearTimeout(timer);
   }, [location.pathname]);
 
   const GlobalLoading = ({ active }) => {
+    const [TenSec, setTenSec] = useState(false);
     if (!active && !isTransitioning) return null;
-
+    useEffect(() => {
+      setTenSec(false);
+      const timerId = setTimeout(() => {
+        setTenSec(true);
+      }, 7000);
+      return () => {
+        clearTimeout(timerId);
+      };
+    }, [active,isTransitioning]);
     return (
       <div className="fixed inset-0 z-50 flex flex-col items-center justify-center backdrop-blur-md bg-black/30">
         <div className="relative w-16 h-16 mb-3">
           <div className="absolute w-full h-full rounded-full border-4 border-t-blue-500 border-r-orange-500 border-b-yellow-500 border-l-green-500 animate-spin"></div>
         </div>
 
-        <h6 className="font-bold text-white text-lg tracking-wide">
+        {(TenSec) ? ( <div className="text-center animate-fadeInUp">
+  <p className="text-white font-semibold text-xl md:text-2xl tracking-wide mb-2 drop-shadow-[0_2px_6px_rgba(255,255,255,0.25)]">
+    Preparing your experience
+  </p>
+
+  <p className="text-white/80 text-sm md:text-lg leading-relaxed">
+    The server is starting up. This may take 1–2 minutes.
+  </p>
+
+</div>) : (<h6 className="font-bold text-white text-lg sm:text-xl tracking-wide">
           Loading<span className="animate-pulse">...</span>
-        </h6>
-      </div>
+        </h6>)
+        }
+      </div >
     );
   };
 
@@ -49,7 +68,7 @@ export const LoadingProvider = ({ children }) => {
   return (
     <LoadingContext.Provider value={{ isLoading, setLoading }}>
       {children}
-      <GlobalLoading active={isLoading || isTransitioning } />
+      <GlobalLoading active={isLoading || isTransitioning} />
     </LoadingContext.Provider>
   )
 }

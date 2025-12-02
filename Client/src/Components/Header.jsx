@@ -11,7 +11,7 @@ const Header = () => {
     return (
         <header className="bg-stone-800 shadow-xl border-b border-amber-500/10 fixed top-0 left-0 right-0 z-50 font-serif">
             <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center py-3 sm:py-4">
-                <Link to={'/'} ><img className='w-20 sm:w-40 ' src={evertoneLogo} alt="" /></Link>
+                <Link to={'/'} ><img className='w-30 sm:w-50 ' src={evertoneLogo} alt="" /></Link>
                 <nav className='flex items-center space-x-4 sm:space-x-6'>
 
 
