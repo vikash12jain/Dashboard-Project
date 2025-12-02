@@ -1,18 +1,35 @@
 const UserActivity = require('../Models/UserActivity.model')
+const User = require("../Models/User.model");
+const JWT_SECRET = process.env.JWT_SECRET;
+const jwt = require("jsonwebtoken");
+
 exports.logUserActivity = async (req, res, next) => {
     try {
-
-        if (req.user) {
+        const token = req.cookies.token || (req.headers.authorization ? req.headers.authorization.split(" ")[1] : null);
+        
+        let user;
+        if (token) {
+            try {
+                const decoded = await jwt.verify(token, JWT_SECRET);
+                user = await User.findById(decoded.id);
+                
+            } catch (err) {
+            console.error(err.message);
+            }
+        }
+       
+        if (user) {
+            
             await UserActivity.create({
-                userId: req.user._id,
-                fullname: req.user.fullname,
-                email: req.user.email,
+                userId: user._id,
+                fullname: user.fullname,
+                email: user.email,
                 route: req.originalUrl,
                 method: req.method,
                 ip: req.ip,
-                isadmin: req.user.isAdmin,
-                isRecruiter: req.user?.isRecruiter || false,
-                companyName: req.user?.companyName || "nope"
+                isadmin: user.isAdmin,
+                isRecruiter: user?.isRecruiter || false,
+                companyName: user?.companyName || "nope"
             });
         }
         else {

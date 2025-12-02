@@ -16,34 +16,74 @@ const Header = () => {
 
 
                     {RecruiterMode && (
-                        <li className="
-                                    w-full md:w-auto
-                                    flex md:inline-flex
-                                    justify-start md:justify-center
-                                  ">
-                            <button
-                                onClick={() => navigate('/Recruiter/RecruiterDashboard')}
-                                className="
-                                text-amber-100
-                                    w-full md:w-auto
-                                     md:text-center
-                                    hover:text-amber-300
-                                    font-light
-                                    text-[10px] md:text-[15px]
-                                    
-                                    transition-colors
-                                    p-0  md:p-2
-                                    rounded-md
-                                    focus:outline-none
-                                    focus:ring-2
-                                    focus:ring-amber-500
-                                    
-                                  "
-                            >
-                                Recruite Mode
-                            </button>
-                        </li>
-                    )}
+  <li
+    className="
+      w-full md:w-auto
+      flex md:inline-flex
+      justify-start md:justify-center
+      relative group
+    "
+  >
+    <button
+      onClick={() => navigate('/Recruiter/RecruiterDashboard')}
+      className="
+        text-amber-100
+        text-[10px] md:text-[15px]
+        font-light
+        px-2 py-1.5
+        rounded-md
+        backdrop-blur-md
+        bg-white/10
+        hover:bg-white/20
+        border border-white/20
+        shadow-md
+        transition-all
+        whitespace-nowrap
+        focus:outline-none
+        focus:ring-2
+        focus:ring-amber-500/50
+      "
+    >
+      Recruiter Mode
+    </button>
+
+    
+    <div
+      className="
+        absolute left-1/2 -translate-x-1/2
+        md:mt-12 mt-10
+        px-3 py-1.5
+        rounded-lg
+        text-[10px] md:text-xs
+        bg-white/15
+        backdrop-blur-lg
+        text-black/90
+        shadow-xl
+        opacity-0
+        pointer-events-none
+        transition-all duration-200
+        group-hover:opacity-100
+        group-hover:translate-y-1
+        whitespace-nowrap
+        z-30
+      "
+    >
+      This feature is only for recruiters
+      {/* Arrow */}
+      <span
+        className="
+          absolute left-1/2 -translate-x-1/2
+          -top-2
+          w-0 h-0
+          border-l-6 border-r-6 border-b-6
+          border-l-transparent border-r-transparent
+          border-b-white/15
+        "
+      ></span>
+    </div>
+  </li>
+)}
+
                     <div className="flex items-center gap-2 md:hidden">
 
                         <button
