@@ -14,7 +14,6 @@ router.post('/register',
         body('password').isLength({ min: 6 }).withMessage("password must be at least 6 character long")
     ],
     userController.registerUser
-
 )
 
 router.post('/login', [
@@ -24,8 +23,8 @@ router.post('/login', [
     userController.loginUser
 )
 
-router.get('/profile', userMiddleware.authUser,monitorActivity.logUserActivity, userController.userProfile)
-router.post('/logout', userMiddleware.authUser,monitorActivity.logUserActivity , userController.logoutUser)
+router.get('/profile', userMiddleware.authUser, monitorActivity.logUserActivity, userController.userProfile)
+router.post('/logout', userMiddleware.authUser, monitorActivity.logUserActivity, userController.logoutUser)
 
 
 router.post("/register-admin", protect, adminOnly, monitorActivity.logUserActivity, userController.registerAdmin);
@@ -37,7 +36,15 @@ router.get("/:id", protect, adminOnly, monitorActivity.logUserActivity, userCont
 router.put("/:id", protect, adminOnly, monitorActivity.logUserActivity, userController.updateUserByAdmin);
 
 router.delete("/:id", protect, adminOnly, monitorActivity.logUserActivity, userController.deleteUser);
- 
+
+router.post('/register/recruiter',
+    [
+        body('email').isEmail().withMessage("Invalid email"),
+        body('companyName').notEmpty().withMessage("To get Access Company Name is required!"),
+    ],
+    userController.registerRecruiter
+)
+
 module.exports = router;
 
 

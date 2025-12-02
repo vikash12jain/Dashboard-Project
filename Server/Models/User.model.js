@@ -11,8 +11,6 @@ const userSchema = new mongoose.Schema({
         },
         lastname: {
             type: String,
-            required: [true, 'Last name is required'],
-            minlength: [3, 'The last name must be at least 3 characters long'],
             trim: true
         }
     },
@@ -37,6 +35,14 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    isRecruiter: {
+        type: Boolean,
+        default: false
+    },
+    companyName: {
+        type: String,
+    },
+
     cart: [{
         productId: {
             type: mongoose.Schema.Types.ObjectId,

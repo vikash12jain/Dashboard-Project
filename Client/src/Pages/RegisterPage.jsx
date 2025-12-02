@@ -35,12 +35,10 @@ const RegisterPage = () => {
             if (error.response && error.response.data) {
                
                 setAuthError(error.response.data.message);
-                console.log("remove : error.response.data.message");
                 console.error("Registration failed:", error.response.data.message);
             } else {
               
                 setAuthError(error.message);
-                console.log("remove 444: error.message");
                 console.error("Registration failed:", error.message);
             }
         }

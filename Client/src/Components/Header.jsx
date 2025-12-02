@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useEcom } from '../Context/EcomProvider';
 import { Link, useNavigate } from 'react-router-dom';
 import evertoneLogo from '../assets/evertone_logo.png';
@@ -6,25 +6,58 @@ import evertoneLogo from '../assets/evertone_logo.png';
 const Header = () => {
     const { cart, user, mobileMenuOpen, setMobileMenuOpen } = useEcom();
     const navigate = useNavigate();
+
+    const RecruiterMode = !user?.isAdmin == true;
     return (
         <header className="bg-stone-800 shadow-xl border-b border-amber-500/10 fixed top-0 left-0 right-0 z-50 font-serif">
             <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center py-3 sm:py-4">
-               <Link to={'/'} ><img className='w-40' src={evertoneLogo} alt="" /></Link>
+                <Link to={'/'} ><img className='w-20 sm:w-40 ' src={evertoneLogo} alt="" /></Link>
                 <nav className='flex items-center space-x-4 sm:space-x-6'>
 
+
+                    {RecruiterMode && (
+                        <li className="
+                                    w-full md:w-auto
+                                    flex md:inline-flex
+                                    justify-start md:justify-center
+                                  ">
+                            <button
+                                onClick={() => navigate('/Recruiter/RecruiterDashboard')}
+                                className="
+                                text-amber-100
+                                    w-full md:w-auto
+                                     md:text-center
+                                    hover:text-amber-300
+                                    font-light
+                                    text-[10px] md:text-[15px]
+                                    
+                                    transition-colors
+                                    p-0  md:p-2
+                                    rounded-md
+                                    focus:outline-none
+                                    focus:ring-2
+                                    focus:ring-amber-500
+                                    
+                                  "
+                            >
+                                Recruite Mode
+                            </button>
+                        </li>
+                    )}
                     <div className="flex items-center gap-2 md:hidden">
-                        <button 
-                            onClick={() => navigate('/cart')} 
-                            className="text-amber-100 p-2 rounded-full hover:bg-stone-700/50 focus:outline-none focus:ring-2 focus:ring-amber-500 relative transition-all duration-200" 
+
+                        <button
+                            onClick={() => navigate('/cart')}
+                            className="text-amber-100 p-2 rounded-full hover:bg-stone-700/50 focus:outline-none focus:ring-2 focus:ring-amber-500 relative transition-all duration-200"
                             aria-label="Open cart"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.198 1.704.707 1.704H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                             {cart.length > 0 && <span className="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold leading-none text-stone-900 transform translate-x-1/2 -translate-y-1/2 bg-amber-400 rounded-full ring-2 ring-stone-800">{cart.length}</span>}
                         </button>
-                        <button 
-                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
-                            aria-expanded={mobileMenuOpen} 
-                            className="text-amber-100 p-2 rounded-lg hover:bg-stone-700/50 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all duration-200" 
+                        <button
+                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                            aria-expanded={mobileMenuOpen}
+                            className="text-amber-100 p-2 rounded-lg hover:bg-stone-700/50 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all duration-200"
                             aria-label="Toggle menu"
                         >
                             {mobileMenuOpen ? (
@@ -36,30 +69,15 @@ const Header = () => {
                     </div>
 
                     <ul className="hidden md:flex space-x-6 text-amber-100 items-center">
-                        
-                        {/* <li>
-                            <button 
-                                onClick={() => {
-                                    navigate('/');
-                                    setTimeout(() => {
-                                        document.getElementById("Product-section")?.scrollIntoView({
-                                            behavior: "smooth"
-                                        });
-                                    }, 50);
-                                }} 
-                                className="hover:text-amber-300 font-medium transition-colors p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
-                            >
-                                Shop
-                            </button>
-                        </li> */}
+
 
                         {user ? (
                             <>
                                 {user.isAdmin && <li><button onClick={() => navigate('/admin')} className="hover:text-amber-300 font-medium transition-colors p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500">Admin</button></li>}
 
-                                 <li>
-                                    <button 
-                                        onClick={() => navigate('/profile')} 
+                                <li>
+                                    <button
+                                        onClick={() => navigate('/profile')}
                                         className="text-amber-100 hover:text-amber-300 flex items-center justify-center w-8 h-8 rounded-full transition-all duration-200 hover:bg-stone-700/50 p-1 focus:outline-none focus:ring-2 focus:ring-amber-500"
                                     >
                                         <svg fill="currentColor" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -77,25 +95,27 @@ const Header = () => {
                                 </li>
                             </>
                         ) : (
-                            <li><button onClick={() => navigate('/login')} className="hover:text-amber-300 font-medium transition-colors p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500">Login</button></li>
+                            <li>
+                                <button onClick={() => navigate('/login')} className=" hover:text-amber-300 font-medium transition-colors p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500">Login</button>
+                            </li>
                         )}
 
-                         <li> 
-                            <button 
-                                onClick={() => navigate('/cart')} 
+                        <li>
+                            <button
+                                onClick={() => navigate('/cart')}
                                 className="relative top-1 text-amber-100 hover:text-amber-300 transition-all duration-200 p-2 rounded-full hover:bg-stone-700/50 focus:outline-none focus:ring-2 focus:ring-amber-500"
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.198 1.704.707 1.704H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                                 </svg>
                                 {cart.length > 0 && (
-                                   <span className="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold leading-none text-stone-900 transform translate-x-1/2 -translate-y-1/2 bg-amber-400 rounded-full ring-2 ring-stone-800">{cart.length}</span>
+                                    <span className="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold leading-none text-stone-900 transform translate-x-1/2 -translate-y-1/2 bg-amber-400 rounded-full ring-2 ring-stone-800">{cart.length}</span>
                                 )}
                             </button>
                         </li>
                     </ul>
                 </nav>
-                
+
                 {mobileMenuOpen && (
                     <>
                         <div className="fixed inset-0 z-40" onClick={() => setMobileMenuOpen(false)} />
@@ -104,6 +124,7 @@ const Header = () => {
                                 <li>
                                     <button onClick={() => { navigate('/'); setMobileMenuOpen(false); document.getElementById('Product-section')?.scrollIntoView({ behavior: 'smooth' }); }} className="text-left w-full p-2 rounded-lg hover:bg-stone-600 transition-colors">Shop</button>
                                 </li>
+
                                 {user ? (
                                     <>
                                         {user.isAdmin && <li><button onClick={() => { navigate('/admin'); setMobileMenuOpen(false); }} className="text-left w-full p-2 rounded-lg hover:bg-stone-600 transition-colors">Admin</button></li>}
@@ -120,6 +141,7 @@ const Header = () => {
 
 
             </div>
+
         </header>
     )
 }

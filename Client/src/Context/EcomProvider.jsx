@@ -1,7 +1,7 @@
-import React, { createContext, useContext,useState,useEffect,useRef } from 'react'
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react'
 import { useLoading } from './LoadingProvider'
 import toast from 'react-hot-toast'
-import {useNavigate} from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 const EcomContext = createContext();
 
 export const EcomProvider = ({ children }) => {
@@ -15,7 +15,7 @@ export const EcomProvider = ({ children }) => {
   const [authError, setAuthError] = useState('');
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [currentProductId, setCurrentProductId] = useState(null);
-const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [inFlight, setInFlight] = useState({});
   const inFlightPromisesRef = useRef({});
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -31,15 +31,15 @@ const [isInitialLoading, setIsInitialLoading] = useState(true);
   const isBusy = (key) => !!inFlight[key];
   const anyBusy = Object.values(inFlight).some(Boolean) || isLoading;
 
-const getInitialCart = () => {
+  const getInitialCart = () => {
     try {
-        const storedCart = localStorage.getItem('cart');
-        return storedCart ? JSON.parse(storedCart) : [];
+      const storedCart = localStorage.getItem('cart');
+      return storedCart ? JSON.parse(storedCart) : [];
     } catch {
-        return [];
+      return [];
     }
-};
-const [cart, setCart] = useState(getInitialCart);
+  };
+  const [cart, setCart] = useState(getInitialCart);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -68,15 +68,16 @@ const [cart, setCart] = useState(getInitialCart);
         setAuthToken(null);
         return;
       }
-      finally{
+      finally {
         setIsInitialLoading(false);
       }
 
     })();
   }, []);
 
-
   const apiFetch = async (path, options = {}, opts = {}) => {
+ 
+
     const { requestKey } = opts || {};
     if (requestKey && inFlightPromisesRef.current[requestKey]) {
       return inFlightPromisesRef.current[requestKey];
@@ -94,7 +95,7 @@ const [cart, setCart] = useState(getInitialCart);
         const token = localStorage.getItem('authToken') || authToken;
         if (token) headers.Authorization = `Bearer ${token}`;
 
-        const res = await fetch(`${API_BASE}${path}`, { credentials:'include', ...options, headers });
+        const res = await fetch(`${API_BASE}${path}`, { credentials: 'include', ...options, headers });
 
         if (res.status === 401) {
           localStorage.removeItem('authToken');
@@ -122,6 +123,7 @@ const [cart, setCart] = useState(getInitialCart);
       } finally {
         if (requestKey) setInFlightFor(requestKey, false);
         if (requestKey) delete inFlightPromisesRef.current[requestKey];
+        setLoading(false);
       }
     })();
 
@@ -136,7 +138,7 @@ const [cart, setCart] = useState(getInitialCart);
     setLoading(true);
     try {
       const data = await apiFetch('/products', { method: 'GET' }, { requestKey: 'fetchProducts' });
-      console.log(data);
+      
 
       const normalized = (data || []).map(p => ({
         ...p,
@@ -182,7 +184,7 @@ const [cart, setCart] = useState(getInitialCart);
     } catch (err) {
       console.warn('Logout request failed:', err);
     }
-    finally{
+    finally {
       setLoading(false);
     }
     localStorage.removeItem("authToken");
@@ -264,7 +266,7 @@ const [cart, setCart] = useState(getInitialCart);
     }
   };
 
-  const onOpen = (id) => { setCurrentProductId(id); navigate('/product-Detail')};
+  const onOpen = (id) => { setCurrentProductId(id); navigate('/product-Detail') };
 
   const fetchServerCart = async () => {
     try {
@@ -475,34 +477,34 @@ const [cart, setCart] = useState(getInitialCart);
 
   const getUserDefaultTheme = () => {
     if (typeof window !== 'undefined' && localStorage.getItem('theme')) {
-        return localStorage.getItem('theme');
+      return localStorage.getItem('theme');
     }
     if (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        return 'dark';
+      return 'dark';
     }
-    return 'light'; 
-};
+    return 'light';
+  };
 
-const [theme, setTheme] = useState(getUserDefaultTheme);
+  const [theme, setTheme] = useState(getUserDefaultTheme);
 
-useEffect(() => {
-  const root = document.documentElement;
+  useEffect(() => {
+    const root = document.documentElement;
 
-  if (theme === "dark") {
-    root.classList.add("dark");
-  } else {
-    root.classList.remove("dark");
-  }
+    if (theme === "dark") {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
 
-  localStorage.setItem("theme", theme);
-}, [theme]);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
-const toggleTheme = () => {
+  const toggleTheme = () => {
     setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
-};
+  };
   return (
     <EcomContext.Provider value={{
-      API_BASE, products, setProducts, user, setUser,theme,setTheme,toggleTheme, cart,isInitialLoading, setCart, authToken,onOpen, setAuthToken, authError, setAuthError, isSearchModalOpen, setIsSearchModalOpen, currentProductId, setCurrentProductId, inFlight, setInFlight, isBusy, anyBusy, mobileMenuOpen, setMobileMenuOpen, isLoading, setLoading, apiFetch, fetchProducts, getProductById, cartQtyFor, canAddToCart, addToCart, handleAddToCart, fetchServerCart, mergeLocalCartOnLogin, updateQuantity, removeItem, handleServerRemove, clearCart, handleCheckout, handleLogout, setInFlightFor,
+      API_BASE, products, setProducts, user, setUser, theme, setTheme, toggleTheme, cart, isInitialLoading, setCart, authToken, onOpen, setAuthToken, authError, setAuthError, isSearchModalOpen, setIsSearchModalOpen, currentProductId, setCurrentProductId, inFlight, setInFlight, isBusy, anyBusy, mobileMenuOpen, setMobileMenuOpen, isLoading, setLoading, apiFetch, fetchProducts, getProductById, cartQtyFor, canAddToCart, addToCart, handleAddToCart, fetchServerCart, mergeLocalCartOnLogin, updateQuantity, removeItem, handleServerRemove, clearCart, handleCheckout, handleLogout, setInFlightFor,
     }}>{children}</EcomContext.Provider>
   )
 }

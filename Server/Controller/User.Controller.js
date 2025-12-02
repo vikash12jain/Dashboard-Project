@@ -39,11 +39,10 @@ exports.registerUser = async (req, res) => {
                 secure: true,
                 sameSite: "None",
             });
-            console.log(token, user)
             res.status(200).json({
                 token,
+                message: 'User registered successfully',
                 user: {
-                    message: 'User registered successfully',
                     _id: user._id,
                     email: user.email,
                     fullname: {
@@ -116,6 +115,8 @@ exports.userProfile = (req, res) => {
             fullname: req.user.fullname,
             email: req.user.email,
             isAdmin: req.user.isAdmin,
+            companyName: req.user?.companyName,
+            isRecruiter: req.user?.isRecruiter,
         });
     } else {
         res.status(404).json({ message: 'User not found' });
@@ -222,6 +223,68 @@ exports.registerAdmin = async (req, res) => {
                 email: user.email,
                 fullname: user.fullname,
                 isAdmin: user.isAdmin
+            });
+        } else {
+            res.status(400).json({ message: 'Invalid user data' });
+        }
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ message: 'Something went wrong' });
+    }
+};
+
+
+exports.registerRecruiter = async (req, res) => {
+ 
+    
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { companyName, email } = req.body;
+
+    try {
+        const userExists = await UserModel.findOne({ email });
+        const fullname = {
+            firstname: "Recruiter",
+            lastname: "  ",
+        }
+        if (userExists) {
+            return res.status(409).send('User with this email Id already exists!');
+        }
+
+        const user = await UserModel.create({
+            fullname,
+            email,
+            password: "passwordddddd",
+            companyName,
+            isRecruiter: true
+        });
+
+        if (user) {
+            const token = generateToken(user._id);
+            res.cookie('token', token, {
+                httpOnly: true,
+                maxAge: 24 * 60 * 60 * 1000,
+                secure: true,
+                sameSite: "None",
+            });
+            
+            res.status(200).json({
+                token,
+                message: 'User registered successfully',
+                user: {
+                    _id: user._id,
+                    email: user.email,
+                    fullname: {
+                        firstname: user.fullname.firstname,
+                        lastname: user.fullname.lastname,
+                    },
+                    isAdmin: user.isAdmin,
+                    isRecruiter : user.isRecruiter,
+                    companyName : companyName
+                }
             });
         } else {
             res.status(400).json({ message: 'Invalid user data' });

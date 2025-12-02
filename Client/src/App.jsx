@@ -19,7 +19,8 @@ import ProtectAdminRoute from './Components/ProtectAdminRoute'
 import Forbidden403 from './Pages/Forbidden403'
 import NotFound404 from './Pages/NotFound404'
 import AllOrdersPage from './Pages/AllOrdersPage'
-
+import RecruiterPage from './Pages/RecruiterPage'
+import RecruiterRoute from './Routes/RecruiterRoute'
 function App() {
 
   return (
@@ -31,8 +32,9 @@ function App() {
       <Route path='/login' element={<LoginPage />} />
       <Route path='/register' element={<RegisterPage />} />
       <Route path='/profile' element={<ProfilePage />} />
-
+      <Route path='/recruiter-login' element={<RecruiterPage />} />
       <Route path="/403" element={<Forbidden403 />} />
+      <Route path="/Recruiter/*" element={<RecruiterRoute />} />
 
       <Route path="/admin" element={<ProtectAdminRoute />}>
         <Route element={<AdminLayout />} />
@@ -46,7 +48,7 @@ function App() {
         <Route path='users' element={<UserListPage />} />
         <Route path='All-Orders' element={<AllOrdersPage />} />
       </Route>
-      <Route path='*' element={<NotFound404/>}/>
+      <Route path='*' element={<NotFound404 />} />
     </Routes>
   )
 }

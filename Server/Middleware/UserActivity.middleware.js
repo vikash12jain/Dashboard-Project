@@ -1,19 +1,21 @@
 const UserActivity = require('../Models/UserActivity.model')
 exports.logUserActivity = async (req, res, next) => {
     try {
-        
+
         if (req.user) {
-                await UserActivity.create({
+            await UserActivity.create({
                 userId: req.user._id,
                 fullname: req.user.fullname,
                 email: req.user.email,
                 route: req.originalUrl,
                 method: req.method,
                 ip: req.ip,
-                isadmin: req.user.isAdmin
+                isadmin: req.user.isAdmin,
+                isRecruiter: req.user?.isRecruiter || false,
+                companyName: req.user?.companyName || "nope"
             });
         }
-        else{
+        else {
             await UserActivity.create({
                 email: "---STRANGER---",
                 route: req.originalUrl,

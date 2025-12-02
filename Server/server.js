@@ -11,7 +11,6 @@ const cartRoutes = require("./Routes/Cart.Route");
 const errorHandler = require("./Middleware/ErrorMiddleware");
 const CheckoutRoutes = require('./Routes/Checkout.Routes');
 const app = express();
-
 app.use(express.json()); 
 app.use(bodyParser.json());
 app.use(cookieParser()); 

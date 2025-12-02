@@ -1,11 +1,11 @@
-import { createContext, useContext,useEffect,useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import { useLocation } from "react-router-dom";
 
 const LoadingContext = createContext();
 export const LoadingProvider = ({ children }) => {
   const [isLoading, setLoading] = useState(false);
-    const location = useLocation();
-
+  const location = useLocation();
+  const [isTransitioning, setIsTransitioning] = useState(false);
   // const GlobalLoading = ({ active }) => {
   //   if (!active) return null;
   //   return (
@@ -20,40 +20,37 @@ export const LoadingProvider = ({ children }) => {
   //     </div>
   //   );
   // };
+  
+  useEffect(() => {
+    if (location.pathname === "/") return;
+    setIsTransitioning(true);
+    const timer = setTimeout(() => setIsTransitioning(false), 500);
+    return () => clearTimeout(timer);
+  }, [location.pathname]);
 
   const GlobalLoading = ({ active }) => {
-  if (!active) return null;
+    if (!active && !isTransitioning) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center backdrop-blur-md bg-black/30">
-      <div className="relative w-16 h-16 mb-3">
-        <div className="absolute w-full h-full rounded-full border-4 border-t-blue-500 border-r-orange-500 border-b-yellow-500 border-l-green-500 animate-spin"></div>
+    return (
+      <div className="fixed inset-0 z-50 flex flex-col items-center justify-center backdrop-blur-md bg-black/30">
+        <div className="relative w-16 h-16 mb-3">
+          <div className="absolute w-full h-full rounded-full border-4 border-t-blue-500 border-r-orange-500 border-b-yellow-500 border-l-green-500 animate-spin"></div>
+        </div>
+
+        <h6 className="font-bold text-white text-lg tracking-wide">
+          Loading<span className="animate-pulse">...</span>
+        </h6>
       </div>
-
-      <h6 className="font-bold text-white text-lg tracking-wide">
-        Loading<span className="animate-pulse">...</span>
-      </h6>
-    </div>
-  );
-};
+    );
+  };
 
 
-  useEffect(() => {
-  if (location.pathname === "/") return;
-  if (isLoading) return;
-
-  setLoading(true);
-
-  const timer = setTimeout(() => setLoading(false), 500);
-
-  return () => clearTimeout(timer);
-}, [location.pathname]);
 
   return (
     <LoadingContext.Provider value={{ isLoading, setLoading }}>
       {children}
-      <GlobalLoading active={isLoading} />
-      </LoadingContext.Provider>
+      <GlobalLoading active={isLoading || isTransitioning } />
+    </LoadingContext.Provider>
   )
 }
 

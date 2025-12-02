@@ -13,6 +13,13 @@ const userActivitySchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  isRecruiter: {
+    type: Boolean,
+  },
+  companyName: {
+    type: String
+
+  },
   email: String,
   route: String,
   method: String,
