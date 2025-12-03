@@ -23,7 +23,17 @@ const userActivitySchema = new mongoose.Schema({
   email: String,
   route: String,
   method: String,
+  location:Object,
+  browser:String,
+  browserVersion:String,
+  os:String,
+  osVersion:String,
+  deviceType:String,
+  deviceVendor:String,
+  deviceModel:String,
+  cpuArch:String,
   ip: String,
+  platform: String,
   timestamp: { type: Date, default: Date.now }
 });
 

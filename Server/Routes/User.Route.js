@@ -23,19 +23,19 @@ router.post('/login', [
     userController.loginUser
 )
 
-router.get('/profile', userMiddleware.authUser, monitorActivity.logUserActivity, userController.userProfile)
-router.post('/logout', userMiddleware.authUser, monitorActivity.logUserActivity, userController.logoutUser)
+router.get('/profile', userMiddleware.authUser, userController.userProfile)
+router.post('/logout', userMiddleware.authUser, userController.logoutUser)
 
 
-router.post("/register-admin", protect, adminOnly, monitorActivity.logUserActivity, userController.registerAdmin);
+router.post("/register-admin", protect, adminOnly, userController.registerAdmin);
 
-router.get("/", protect, adminOnly, monitorActivity.logUserActivity, userController.getAllUsers);
+router.get("/", protect, adminOnly, userController.getAllUsers);
 
-router.get("/:id", protect, adminOnly, monitorActivity.logUserActivity, userController.getSingleUser);
+router.get("/:id", protect, adminOnly, userController.getSingleUser);
 
-router.put("/:id", protect, adminOnly, monitorActivity.logUserActivity, userController.updateUserByAdmin);
+router.put("/:id", protect, adminOnly, userController.updateUserByAdmin);
 
-router.delete("/:id", protect, adminOnly, monitorActivity.logUserActivity, userController.deleteUser);
+router.delete("/:id", protect, adminOnly, userController.deleteUser);
 
 router.post('/register/recruiter',
     [

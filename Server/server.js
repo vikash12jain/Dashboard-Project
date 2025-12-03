@@ -10,12 +10,16 @@ const productRoutes = require("./Routes/Product.Route");
 const cartRoutes = require("./Routes/Cart.Route");
 const errorHandler = require("./Middleware/ErrorMiddleware");
 const CheckoutRoutes = require('./Routes/Checkout.Routes');
-const app = express();
-app.use(express.json()); 
-app.use(bodyParser.json());
-app.use(cookieParser()); 
-const clientOrigin = process.env.CLIENT_ORIGIN;
+const { logUserActivity } = require("./Middleware/UserActivity.middleware");
 
+
+const app = express();
+app.use(express.json());
+app.use(bodyParser.json());
+app.use(cookieParser());
+const clientOrigin = process.env.CLIENT_ORIGIN;
+app.set('trust proxy', true);
+app.use(logUserActivity);
 app.use(
   cors({
     origin: clientOrigin,
@@ -25,11 +29,11 @@ app.use(
 
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
-app.use("/api/cart", cartRoutes); 
-app.use("/api/checkout", CheckoutRoutes); 
+app.use("/api/cart", cartRoutes);
+app.use("/api/checkout", CheckoutRoutes);
 
 app.get('/', (req, res) => {
-    res.send('hello world');
+  res.send('hello world');
 });
 app.get('/health', (req, res) => res.send('ok'));
 
